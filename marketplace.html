@@ -1,78 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buy Carbon Credits - PedPe</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
     <style>
+        :root {
+            --primary-green: #00f5a0;
+            --primary-dark: #00d98b;
+            --deep-green: #0a2e1f;
+            --accent-green: #c1ff72;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --white: #ffffff;
+            --off-white: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
         }
-        
-        :root {
-            --primary-green: #81f18e;
-            --dark-green: #2e7d32;
-            --darker-green: #1b5e20;
-            --pastel-green: #e8fce9;
-            --white: #ffffff;
-            --off-white: #f9fff9;
-            --light-gray: #f5f5f5;
-            --text-dark: #333;
-            --text-light: #555;
-            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
-        }
-        
+
         body {
-            color: var(--text-dark);
-            line-height: 1.6;
+            color: var(--text-main);
             background-color: var(--off-white);
             overflow-x: hidden;
+            opacity: 0;
+            /* For GSAP fade in */
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--deep-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-logo {
+            font-size: 3.5rem;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: -2px;
+        }
+
+        .loader-bar {
+            width: 150px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loader-progress {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-green);
+            animation: loading 1.5s infinite ease-in-out;
+        }
+
+        @keyframes loading {
+            0% {
+                left: -100%;
+            }
+
+            50% {
+                left: 0;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
         header {
-            background-color: var(--white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            width: 100%;
             top: 0;
             z-index: 1000;
-            transition: var(--transition);
+            transition: var(--transition-smooth);
+            padding: 5px 0;
         }
-        
+
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
         }
-        
+
         .logo {
             font-size: 24px;
             font-weight: 700;
             display: flex;
             align-items: center;
             gap: 8px;
+            text-decoration: none;
         }
-        
-        .logo-ped {
-            color: var(--primary-green);
-        }
-        
-        .logo-pe {
-            color: var(--darker-green);
-        }
-        
+
         .logo-icon {
             background: var(--primary-green);
             width: 40px;
@@ -81,29 +147,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--transition);
-            color: var(--darker-green);
+            transition: var(--transition-smooth);
+            color: var(--deep-green);
         }
-        
+
         .logo:hover .logo-icon {
             transform: rotate(10deg);
         }
-        
+
         nav ul {
             display: flex;
             list-style: none;
             gap: 30px;
         }
-        
+
         nav a {
             text-decoration: none;
-            color: var(--text-dark);
+            color: var(--text-main);
             font-weight: 500;
-            transition: var(--transition);
+            transition: var(--transition-smooth);
             position: relative;
             padding: 5px 0;
         }
-        
+
         nav a:after {
             content: '';
             position: absolute;
@@ -112,106 +178,101 @@
             bottom: 0;
             left: 0;
             background-color: var(--primary-green);
-            transition: var(--transition);
+            transition: var(--transition-smooth);
         }
-        
+
         nav a:hover {
-            color: var(--darker-green);
+            color: var(--primary-dark);
         }
-        
+
         nav a:hover:after {
             width: 100%;
         }
-        
-        .header-buttons {
-            display: flex;
-            gap: 15px;
-        }
-        
+
         .btn {
             padding: 12px 24px;
             border-radius: 8px;
             font-weight: 500;
             cursor: pointer;
-            transition: var(--transition);
+            transition: var(--transition-smooth);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             border: none;
         }
-        
+
         .btn-outline {
             border: 1px solid var(--primary-green);
-            color: var(--darker-green);
+            color: var(--deep-green);
             background: transparent;
         }
-        
+
         .btn-outline:hover {
             background-color: var(--primary-green);
-            color: var(--darker-green);
+            color: var(--deep-green);
             transform: translateY(-2px);
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-md);
         }
-        
+
         .btn-primary {
             background-color: var(--primary-green);
-            color: var(--darker-green);
+            color: var(--deep-green);
             border: 1px solid var(--primary-green);
         }
-        
+
         .btn-primary:hover {
-            background-color: var(--dark-green);
+            background-color: var(--primary-dark);
             color: var(--white);
-            border-color: var(--dark-green);
+            border-color: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-md);
         }
-        
+
         .btn-home {
             background: var(--darker-green);
             color: white;
         }
-        
+
         .btn-home:hover {
             background: var(--dark-green);
             transform: translateY(-2px);
         }
-        
+
         .btn-buy {
             background: var(--primary-green);
             color: var(--darker-green);
             font-weight: 600;
         }
-        
+
         .btn-buy:hover {
             background: var(--dark-green);
             color: white;
             transform: translateY(-2px);
         }
-        
+
         .marketplace-section {
             padding: 80px 0;
         }
-        
+
         .marketplace-header {
             text-align: center;
             margin-bottom: 50px;
         }
-        
+
         .marketplace-title {
             font-size: 2.5rem;
             margin-bottom: 20px;
             color: var(--darker-green);
         }
-        
+
         .marketplace-subtitle {
             font-size: 1.2rem;
             max-width: 700px;
             margin: 0 auto;
             color: var(--text-light);
         }
-        
+
         .marketplace-filters {
             display: flex;
             justify-content: center;
@@ -219,7 +280,7 @@
             margin-bottom: 40px;
             flex-wrap: wrap;
         }
-        
+
         .filter-btn {
             padding: 10px 20px;
             background: var(--pastel-green);
@@ -229,18 +290,19 @@
             transition: var(--transition);
             font-weight: 500;
         }
-        
-        .filter-btn:hover, .filter-btn.active {
+
+        .filter-btn:hover,
+        .filter-btn.active {
             background: var(--primary-green);
             color: var(--darker-green);
         }
-        
+
         .plants-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
         }
-        
+
         .plant-card {
             background: var(--white);
             border-radius: 16px;
@@ -248,40 +310,40 @@
             box-shadow: var(--shadow);
             transition: var(--transition);
         }
-        
+
         .plant-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
-        
+
         .plant-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
         }
-        
+
         .plant-details {
             padding: 20px;
         }
-        
+
         .plant-name {
             font-size: 1.4rem;
             margin-bottom: 10px;
             color: var(--darker-green);
         }
-        
+
         .plant-species {
             color: var(--text-light);
             margin-bottom: 5px;
             font-size: 0.9rem;
         }
-        
+
         .plant-age {
             color: var(--text-light);
             margin-bottom: 15px;
             font-size: 0.9rem;
         }
-        
+
         .plant-location {
             display: flex;
             align-items: center;
@@ -290,7 +352,7 @@
             margin-bottom: 15px;
             font-size: 0.9rem;
         }
-        
+
         .carbon-credits {
             display: flex;
             justify-content: space-between;
@@ -299,25 +361,25 @@
             padding-top: 15px;
             border-top: 1px solid var(--pastel-green);
         }
-        
+
         .credits-value {
             font-weight: 600;
             color: var(--darker-green);
         }
-        
+
         .credits-price {
             font-size: 1.2rem;
             font-weight: 700;
             color: var(--darker-green);
         }
-        
+
         footer {
             background-color: var(--darker-green);
             color: var(--white);
             padding: 60px 0 20px;
             margin-top: 60px;
         }
-        
+
         .footer-content {
             display: flex;
             flex-wrap: wrap;
@@ -325,62 +387,62 @@
             justify-content: space-between;
             margin-bottom: 40px;
         }
-        
+
         .footer-column {
             flex: 1;
             min-width: 200px;
         }
-        
+
         .footer-column h3 {
             font-size: 1.2rem;
             margin-bottom: 20px;
             color: var(--primary-green);
         }
-        
+
         .footer-column ul {
             list-style: none;
         }
-        
+
         .footer-column li {
             margin-bottom: 10px;
         }
-        
+
         .footer-column a {
             color: var(--white);
             text-decoration: none;
             transition: var(--transition);
             display: inline-block;
         }
-        
+
         .footer-column a:hover {
             color: var(--primary-green);
             transform: translateX(5px);
         }
-        
+
         .copyright {
             text-align: center;
             padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: #a5d6a7;
             font-size: 0.9rem;
         }
-        
+
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
                 gap: 15px;
             }
-            
+
             nav ul {
                 gap: 15px;
                 flex-wrap: wrap;
                 justify-content: center;
             }
-            
+
             .plants-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .footer-content {
                 flex-direction: column;
                 gap: 30px;
@@ -388,25 +450,34 @@
         }
     </style>
 </head>
+
 <body>
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="loader-logo">PedPe</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
     <header>
         <div class="container header-container">
             <a href="index.html" class="logo">
                 <div class="logo-icon">
                     <i class="fas fa-seedling"></i>
                 </div>
-                <span class="logo-ped">Ped</span><span class="logo-pe">Pe</span>
+                <span style="color: var(--deep-green)">Ped</span><span style="color: var(--primary-dark)">Pe</span>
             </a>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="#">Solutions</a></li>
-                    <li><a href="#">Resources</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="marketplace.html">Marketplace</a></li>
+                    <li><a href="plant.html">Submit Report</a></li>
                 </ul>
             </nav>
             <div class="header-buttons">
-                <a href="index.html" class="btn btn-home"><i class="fas fa-home"></i>BACK TO HOME</a>
+                <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Back Home</a>
             </div>
         </div>
     </header>
@@ -415,287 +486,455 @@
         <div class="container">
             <div class="marketplace-header">
                 <h1 class="marketplace-title">Carbon Credit Marketplace</h1>
-                <p class="marketplace-subtitle">Browse and purchase verified carbon credits from sustainable projects around the world</p>
+                <p class="marketplace-subtitle">Browse and purchase verified carbon credits from sustainable mangrove
+                    and blue carbon projects worldwide.</p>
             </div>
-            
+
             <div class="marketplace-filters">
-                <button class="filter-btn active">All Plants</button>
-                <button class="filter-btn">Mangroves</button>
-                <button class="filter-btn">Teak</button>
-                <button class="filter-btn">Bamboo</button>
+                <button class="filter-btn active">All Credits</button>
+                <button class="filter-btn">Red Mangrove</button>
+                <button class="filter-btn">Black Mangrove</button>
+                <button class="filter-btn">Seagrass</button>
                 <button class="filter-btn">Other Species</button>
             </div>
-            
+
             <div class="plants-grid">
                 <!-- Plant 1 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="Red Mangrove" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="Red Mangrove" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
                         <h3 class="plant-name">Red Mangrove</h3>
-                        <p class="plant-species"><strong>Species:</strong> Rhizophora mangle</p>
-                        <p class="plant-age"><strong>Age:</strong> 3 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> Sundarbans, Bangladesh</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">12.5 Carbon Credits</span>
-                            <span class="credits-price">Rs187.50</span>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Rhizophora mangle</span>
+                            <span><i class="fas fa-history"></i> 3 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Sundarbans, BD</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">12.5 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs187.5</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
-                
+
                 <!-- Plant 2 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="Black Mangrove" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="Black Mangrove" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
                         <h3 class="plant-name">Black Mangrove</h3>
-                        <p class="plant-species"><strong>Species:</strong> Avicennia germinans</p>
-                        <p class="plant-age"><strong>Age:</strong> 4 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> Florida Everglades, USA</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">15.2 Carbon Credits</span>
-                            <span class="credits-price">Rs228.00</span>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Avicennia germinans</span>
+                            <span><i class="fas fa-history"></i> 4 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Everglades, USA</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">15.2 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs228.0</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
-                
+
                 <!-- Plant 3 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="White Mangrove" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="White Mangrove" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
                         <h3 class="plant-name">White Mangrove</h3>
-                        <p class="plant-species"><strong>Species:</strong> Laguncularia racemosa</p>
-                        <p class="plant-age"><strong>Age:</strong> 2.5 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> Amazon Delta, Brazil</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">9.8 Carbon Credits</span>
-                            <span class="credits-price">Rs147.00</span>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Laguncularia racemosa</span>
+                            <span><i class="fas fa-history"></i> 2.5 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Amazon Delta, BR</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">9.8 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs147.0</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
-                
+
                 <!-- Plant 4 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="Teak Plantation" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="Seagrass Meadow" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
-                        <h3 class="plant-name">Teak Plantation</h3>
-                        <p class="plant-species"><strong>Species:</strong> Tectona grandis</p>
-                        <p class="plant-age"><strong>Age:</strong> 5 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> Central Java, Indonesia</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">22.3 Carbon Credits</span>
-                            <span class="credits-price">Rs334.50</span>
+                        <h3 class="plant-name">Seagrass Meadow</h3>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Zostera marina</span>
+                            <span><i class="fas fa-history"></i> 2 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Mediterranean</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">22.3 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs334.5</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
-                
+
                 <!-- Plant 5 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="Bamboo Grove" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="Bamboo Grove" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
                         <h3 class="plant-name">Bamboo Grove</h3>
-                        <p class="plant-species"><strong>Species:</strong> Bambusa vulgaris</p>
-                        <p class="plant-age"><strong>Age:</strong> 1.5 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> Chiang Mai, Thailand</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">7.6 Carbon Credits</span>
-                            <span class="credits-price">Rs114.00</span>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Bambusa vulgaris</span>
+                            <span><i class="fas fa-history"></i> 1.5 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Chiang Mai, TH</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">7.6 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs114.0</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
-                
+
                 <!-- Plant 6 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="Coconut Palm" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="Coastal Salt Marsh" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
-                        <h3 class="plant-name">Coconut Palm</h3>
-                        <p class="plant-species"><strong>Species:</strong> Cocos nucifera</p>
-                        <p class="plant-age"><strong>Age:</strong> 4 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> Kerala, India</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">11.2 Carbon Credits</span>
-                            <span class="credits-price">Rs168.00</span>
+                        <h3 class="plant-name">Salt Marsh</h3>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Spartina alterniflora</span>
+                            <span><i class="fas fa-history"></i> 5 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Georgia, USA</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">11.2 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs168.0</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
-                
+
                 <!-- Plant 7 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="Oak Tree" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="Oak Forest" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
-                        <h3 class="plant-name">Oak Tree</h3>
-                        <p class="plant-species"><strong>Species:</strong> Quercus robur</p>
-                        <p class="plant-age"><strong>Age:</strong> 6 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> Normandy, France</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">18.5 Carbon Credits</span>
-                            <span class="credits-price">Rs277.50</span>
+                        <h3 class="plant-name">Oak Forest</h3>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Quercus robur</span>
+                            <span><i class="fas fa-history"></i> 6 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Normandy, FR</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">18.5 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs277.5</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
-                
+
                 <!-- Plant 8 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="Pine Forest" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="Pine Woodland" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
-                        <h3 class="plant-name">Pine Forest</h3>
-                        <p class="plant-species"><strong>Species:</strong> Pinus sylvestris</p>
-                        <p class="plant-age"><strong>Age:</strong> 7 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> British Columbia, Canada</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">25.7 Carbon Credits</span>
-                            <span class="credits-price">Rs385.50</span>
+                        <h3 class="plant-name">Pine Woodland</h3>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Pinus sylvestris</span>
+                            <span><i class="fas fa-history"></i> 7 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Columbia, CA</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">25.7 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs385.5</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
-                
+
                 <!-- Plant 9 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="Eucalyptus" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="Eucalyptus" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
                         <h3 class="plant-name">Eucalyptus</h3>
-                        <p class="plant-species"><strong>Species:</strong> Eucalyptus globulus</p>
-                        <p class="plant-age"><strong>Age:</strong> 3 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> Victoria, Australia</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">14.3 Carbon Credits</span>
-                            <span class="credits-price">Rs214.50</span>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Eucalyptus globulus</span>
+                            <span><i class="fas fa-history"></i> 3 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Victoria, AU</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">14.3 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs214.5</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
-                
+
                 <!-- Plant 10 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="Mahogany" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="Mahogany" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
                         <h3 class="plant-name">Mahogany</h3>
-                        <p class="plant-species"><strong>Species:</strong> Swietenia macrophylla</p>
-                        <p class="plant-age"><strong>Age:</strong> 8 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> Belize, Central America</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">30.2 Carbon Credits</span>
-                            <span class="credits-price">Rs453.00</span>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Swietenia macrophylla</span>
+                            <span><i class="fas fa-history"></i> 8 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Belize, CA</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">30.2 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs453.0</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
-                
+
                 <!-- Plant 11 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="Willow Tree" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="Willow Tree" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
                         <h3 class="plant-name">Willow Tree</h3>
-                        <p class="plant-species"><strong>Species:</strong> Salix alba</p>
-                        <p class="plant-age"><strong>Age:</strong> 4 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> Norfolk, England</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">13.8 Carbon Credits</span>
-                            <span class="credits-price">Rs207.00</span>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Salix alba</span>
+                            <span><i class="fas fa-history"></i> 4 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Norfolk, UK</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">13.8 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs207.0</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
-                
+
                 <!-- Plant 12 -->
                 <div class="plant-card">
-                    <img src="./market_plant.jpg" alt="Baobab Tree" class="plant-image">
+                    <div class="plant-image-container">
+                        <img src="./market_plant.jpg" alt="Baobab Tree" class="plant-image">
+                        <span class="plant-badge">Verified</span>
+                    </div>
                     <div class="plant-details">
                         <h3 class="plant-name">Baobab Tree</h3>
-                        <p class="plant-species"><strong>Species:</strong> Adansonia digitata</p>
-                        <p class="plant-age"><strong>Age:</strong> 10 years</p>
-                        <p class="plant-location"><i class="fas fa-map-marker-alt"></i> Madagascar</p>
-                        <div class="carbon-credits">
-                            <span class="credits-value">35.5 Carbon Credits</span>
-                            <span class="credits-price">Rs532.50</span>
+                        <div class="plant-meta">
+                            <span><i class="fas fa-leaf"></i> Adansonia digitata</span>
+                            <span><i class="fas fa-history"></i> 10 years old</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Madagascar</span>
                         </div>
-                        <button class="btn btn-buy" style="width: 100%; margin-top: 15px;"><i class="fas fa-shopping-cart"></i> Buy Credits</button>
+                        <div class="carbon-credits">
+                            <div class="credits-info">
+                                <h4>Available Credits</h4>
+                                <span class="credits-value">35.5 TCO2e</span>
+                            </div>
+                            <span class="credits-price">Rs532.5</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;"><i
+                                class="fas fa-shopping-cart"></i> Buy Credits</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <footer>
+    <footer style="background: var(--deep-green); padding: 80px 0 40px;">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3>PedPe</h3>
+                    <div class="logo" style="margin-bottom: 25px;">
+                        <div class="logo-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <span style="color: var(--white)">Ped</span><span style="color: var(--primary-green)">Pe</span>
+                    </div>
+                    <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 25px;">Leading the transition
+                        to a carbon-neutral world through blockchain-verified blue carbon credits.</p>
+                </div>
+                <div class="footer-column">
+                    <h3 style="color: var(--white); margin-bottom: 25px;">Platform</h3>
                     <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Our Mission</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="index.html"
+                                style="color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 12px; transition: var(--transition-smooth);">Home</a>
+                        </li>
+                        <li><a href="marketplace.html"
+                                style="color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 12px; transition: var(--transition-smooth);">Marketplace</a>
+                        </li>
+                        <li><a href="plant.html"
+                                style="color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 12px; transition: var(--transition-smooth);">Submit
+                                Report</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h3>Platform</h3>
+                    <h3 style="color: var(--white); margin-bottom: 25px;">Resources</h3>
                     <ul>
-                        <li><a href="#">For Farmers</a></li>
-                        <li><a href="#">For Verifiers</a></li>
-                        <li><a href="#">For Companies</a></li>
-                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#"
+                                style="color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 12px; transition: var(--transition-smooth);">Documentation</a>
+                        </li>
+                        <li><a href="#"
+                                style="color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 12px; transition: var(--transition-smooth);">API
+                                Status</a></li>
+                        <li><a href="#"
+                                style="color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 12px; transition: var(--transition-smooth);">Community</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h3>Resources</h3>
-                    <ul>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Guides</a></li>
-                        <li><a href="#">Webinars</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Connect</h3>
-                    <ul>
-                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                    </ul>
+                    <h3 style="color: var(--white); margin-bottom: 25px;">Connect</h3>
+                    <div style="display: flex; gap: 15px;">
+                        <a href="#"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: var(--white); transition: var(--transition-smooth);"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="#"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: var(--white); transition: var(--transition-smooth);"><i
+                                class="fab fa-linkedin"></i></a>
+                        <a href="#"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: var(--white); transition: var(--transition-smooth);"><i
+                                class="fab fa-github"></i></a>
+                    </div>
                 </div>
             </div>
-            <div class="copyright">
-                <p>Copyright © 2025 PedPe, Inc. All rights reserved.</p>
+            <div class="copyright"
+                style="text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px;">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">&copy; 2025 PedPe. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
+            // GSAP Animations
+            window.addEventListener('load', () => {
+                const tl = gsap.timeline();
+
+                tl.to("#preloader", {
+                    y: "-100%",
+                    duration: 1,
+                    ease: "expo.inOut",
+                    delay: 1
+                });
+
+                tl.to("body", {
+                    opacity: 1,
+                    duration: 0.1
+                }, "-=0.5");
+
+                tl.to(".marketplace-header > *", {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.2,
+                    duration: 1,
+                    ease: "power4.out"
+                }, "-=0.3");
+
+                tl.to(".plant-card", {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.1,
+                    duration: 0.8,
+                    ease: "power2.out"
+                }, "-=0.5");
+            });
+
             // Filter functionality
             const filterButtons = document.querySelectorAll('.filter-btn');
-            
             filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
+                button.addEventListener('click', function () {
                     filterButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Add active class to clicked button
                     this.classList.add('active');
-                    
-                    // In a real implementation, you would filter the plant cards here
-                    // For this example, we'll just simulate filtering
-                    console.log(`Filtering by: Rs{this.textContent}`);
+                    console.log(`Filtering by: ${this.textContent}`);
+
+                    // Simple GSAP filter animation
+                    gsap.to(".plant-card", {
+                        scale: 0.95,
+                        opacity: 0,
+                        duration: 0.2,
+                        stagger: 0.05,
+                        onComplete: () => {
+                            gsap.to(".plant-card", {
+                                scale: 1,
+                                opacity: 1,
+                                duration: 0.4,
+                                stagger: 0.05,
+                                ease: "back.out(1.7)"
+                            });
+                        }
+                    });
                 });
             });
-            
+
             // Buy button functionality
-            const buyButtons = document.querySelectorAll('.btn-buy');
-            
-            buyButtons.forEach(button => {
-                button.addEventListener('click', function() {
+            document.querySelectorAll('.btn-primary').forEach(button => {
+                button.addEventListener('click', function () {
                     const plantName = this.closest('.plant-card').querySelector('.plant-name').textContent;
-                    alert(`Added Rs{plantName} carbon credits to your cart!`);
+                    alert(`Added ${plantName} carbon credits to your cart!`);
                 });
             });
         });
     </script>
 </body>
+
 </html>
