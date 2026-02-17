@@ -1,79 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plantations - PedPe</title>
+    <title>Submit Plantation - PedPe</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
+        :root {
+            --primary-green: #00f5a0;
+            --primary-dark: #00d98b;
+            --deep-green: #0a2e1f;
+            --accent-green: #c1ff72;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --white: #ffffff;
+            --off-white: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
         }
-        
-        :root {
-            --primary-green: #81f18e;
-            --dark-green: #2e7d32;
-            --darker-green: #1b5e20;
-            --pastel-green: #e8fce9;
-            --white: #ffffff;
-            --off-white: #f9fff9;
-            --light-gray: #f5f5f5;
-            --text-dark: #333;
-            --text-light: #555;
-            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
-        }
-        
+
         body {
-            color: var(--text-dark);
-            line-height: 1.6;
+            color: var(--text-main);
             background-color: var(--off-white);
             overflow-x: hidden;
+            opacity: 0;
         }
-        
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
-        /* Header Styles */
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--deep-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-logo {
+            font-size: 3.5rem;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: -2px;
+        }
+
+        .loader-bar {
+            width: 150px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loader-progress {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-green);
+            animation: loading 1.5s infinite ease-in-out;
+        }
+
+        @keyframes loading {
+            0% {
+                left: -100%;
+            }
+
+            50% {
+                left: 0;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
         header {
-            background-color: var(--white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            width: 100%;
             top: 0;
             z-index: 1000;
-            transition: var(--transition);
+            transition: var(--transition-smooth);
+            padding: 5px 0;
         }
-        
+
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
         }
-        
+
         .logo {
             font-size: 24px;
             font-weight: 700;
             display: flex;
             align-items: center;
             gap: 8px;
+            text-decoration: none;
+            color: var(--deep-green);
         }
-        
-        .logo-ped {
-            color: var(--primary-green);
-        }
-        
-        .logo-pe {
-            color: var(--darker-green);
-        }
-        
+
         .logo-icon {
             background: var(--primary-green);
             width: 40px;
@@ -82,180 +142,200 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--transition);
-            color: var(--darker-green);
+            color: var(--deep-green);
         }
-        
-        .logo:hover .logo-icon {
-            transform: rotate(10deg);
-        }
-        
+
         nav ul {
             display: flex;
             list-style: none;
             gap: 30px;
         }
-        
+
         nav a {
             text-decoration: none;
-            color: var(--text-dark);
+            color: var(--text-main);
             font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-            padding: 5px 0;
+            transition: var(--transition-smooth);
         }
-        
-        nav a:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--primary-green);
-            transition: var(--transition);
-        }
-        
+
         nav a:hover {
-            color: var(--darker-green);
+            color: var(--primary-dark);
         }
-        
-        nav a:hover:after {
-            width: 100%;
-        }
-        
-        .header-buttons {
-            display: flex;
-            gap: 15px;
-        }
-        
+
         .btn {
             padding: 12px 24px;
             border-radius: 8px;
             font-weight: 500;
             cursor: pointer;
-            transition: var(--transition);
+            transition: var(--transition-smooth);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             border: none;
         }
-        
-        .btn-outline {
-            border: 1px solid var(--primary-green);
-            color: var(--darker-green);
-            background: transparent;
-        }
-        
-        .btn-outline:hover {
-            background-color: var(--primary-green);
-            color: var(--darker-green);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-        
+
         .btn-primary {
-            background-color: var(--primary-green);
-            color: var(--darker-green);
-            border: 1px solid var(--primary-green);
+            background: var(--primary-green);
+            color: var(--deep-green);
         }
-        
+
         .btn-primary:hover {
-            background-color: var(--dark-green);
-            color: var(--white);
-            border-color: var(--dark-green);
+            background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: var(--shadow);
         }
-        
+
         .btn-home {
-            background: var(--darker-green);
+            background: var(--deep-green);
             color: white;
         }
-        
-        .btn-home:hover {
-            background: var(--dark-green);
-            transform: translateY(-2px);
-        }
-        
-        /* Plant Section */
+
+        /* Plantation Section */
         .plant-section {
-            padding: 80px 0;
+            padding: 140px 0 80px;
             text-align: center;
         }
-        
+
         .plant-title {
-            font-size: 2.5rem;
+            font-size: 3.5rem;
+            font-weight: 800;
             margin-bottom: 20px;
-            color: var(--darker-green);
+            color: var(--deep-green);
+            letter-spacing: -2px;
         }
-        
+
         .plant-subtitle {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 50px;
-            color: var(--text-light);
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 60px;
+            color: var(--text-muted);
         }
-        
+
+        /* Stepper */
+        .stepper {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 2px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-weight: 700;
+            transition: var(--transition-smooth);
+        }
+
+        .step.active .step-icon {
+            background: var(--primary-green);
+            border-color: var(--primary-green);
+            color: var(--deep-green);
+            box-shadow: 0 0 20px rgba(0, 245, 160, 0.4);
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .step.active .step-label {
+            color: var(--deep-green);
+        }
+
+        /* Upload Container */
         .upload-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
+            gap: 30px;
+            margin-bottom: 60px;
         }
-        
+
         .upload-box {
-            background: var(--pastel-green);
-            border: 2px dashed var(--primary-green);
-            border-radius: 16px;
-            padding: 30px;
+            background: var(--white);
+            border: 2px dashed var(--glass-border);
+            border-radius: 24px;
+            padding: 50px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: var(--transition);
-            min-height: 250px;
+            transition: var(--transition-smooth);
+            min-height: 300px;
+            position: relative;
+            overflow: hidden;
         }
-        
+
         .upload-box:hover {
+            border-color: var(--primary-green);
+            background: rgba(0, 245, 160, 0.05);
             transform: translateY(-5px);
-            box-shadow: var(--shadow);
-            background: var(--primary-green);
         }
-        
+
         .upload-icon {
-            font-size: 40px;
-            color: var(--darker-green);
-            margin-bottom: 15px;
+            font-size: 3.5rem;
+            color: var(--primary-green);
+            margin-bottom: 25px;
         }
-        
+
         .upload-text {
-            color: var(--darker-green);
-            font-weight: 500;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--deep-green);
             margin-bottom: 10px;
         }
-        
+
         .upload-hint {
-            color: var(--text-light);
+            color: var(--text-muted);
             font-size: 0.9rem;
+            max-width: 180px;
         }
-        
+
         .upload-preview {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 8px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: none;
-            margin-top: 10px;
+            z-index: 10;
         }
-        
-        .upload-btn {
-            margin-top: 30px;
-            padding: 15px 40px;
-            font-size: 1.1rem;
+
+        .upload-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 46, 31, 0.85);
+            display: none;
+            z-index: 20;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-green);
+            font-weight: 800;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
         }
-        
+
         /* Verification Overlay */
         .verification-overlay {
             display: none;
@@ -264,327 +344,393 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
+            background: var(--deep-green);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            overflow: hidden;
         }
-        
+
+        .scanner-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary-green), transparent);
+            box-shadow: 0 0 30px var(--primary-green);
+            z-index: 30;
+            display: none;
+        }
+
+        .scanning-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0, 245, 160, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 160, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 10;
+        }
+
         .verification-content {
+            position: relative;
+            z-index: 40;
             text-align: center;
-            max-width: 500px;
-            padding: 40px;
+            color: var(--white);
+            max-width: 600px;
         }
-        
-        .verification-title {
-            font-size: 2rem;
-            margin-bottom: 30px;
-            color: var(--darker-green);
-        }
-        
+
         .loading-circle {
-            width: 60px;
-            height: 60px;
-            border: 5px solid var(--pastel-green);
-            border-top: 5px solid var(--primary-green);
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .loading-circle:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary-green);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 30px;
         }
-        
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
-        
+
         .success-message {
             display: none;
-            background: var(--primary-green);
-            color: var(--darker-green);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
             text-align: center;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        
-        .success-icon {
-            font-size: 50px;
-            margin-bottom: 20px;
-        }
-        
-        .success-text {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--darker-green);
+            z-index: 50;
             color: var(--white);
-            padding: 60px 0 20px;
-            margin-top: 60px;
         }
-        
+
+        .success-icon {
+            font-size: 6rem;
+            color: var(--primary-green);
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 30px var(--primary-green));
+        }
+
+        .success-text {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+        }
+
+        footer {
+            background: var(--deep-green);
+            padding: 100px 0 40px;
+            color: var(--white);
+        }
+
         .footer-content {
             display: flex;
-            flex-wrap: wrap;
-            gap: 50px;
             justify-content: space-between;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+            gap: 40px;
         }
-        
-        .footer-column {
-            flex: 1;
-            min-width: 200px;
-        }
-        
+
         .footer-column h3 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: var(--primary-green);
+            margin-bottom: 25px;
+            font-size: 1.25rem;
         }
-        
+
         .footer-column ul {
             list-style: none;
         }
-        
+
         .footer-column li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
-        
+
         .footer-column a {
-            color: var(--white);
+            color: var(--text-muted);
             text-decoration: none;
-            transition: var(--transition);
-            display: inline-block;
+            transition: var(--transition-smooth);
         }
-        
+
         .footer-column a:hover {
             color: var(--primary-green);
-            transform: translateX(5px);
         }
-        
+
         .copyright {
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #a5d6a7;
-            font-size: 0.9rem;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
         }
-        
-        /* Responsive Design */
+
         @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            nav ul {
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
             .upload-container {
                 grid-template-columns: 1fr;
             }
-            
-            .footer-content {
-                flex-direction: column;
-                gap: 30px;
+
+            .stepper {
+                gap: 20px;
+            }
+
+            .plant-title {
+                font-size: 2.5rem;
             }
         }
     </style>
 </head>
+
 <body>
-    <!-- Header -->
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="loader-logo">PedPe</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
     <header>
         <div class="container header-container">
             <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-seedling"></i>
-                </div>
-                <span class="logo-ped">Ped</span><span class="logo-pe">Pe</span>
+                <div class="logo-icon"><i class="fas fa-seedling"></i></div>PedPe
             </a>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="#">Solutions</a></li>
-                    <li><a href="#">Resources</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="marketplace.html">Marketplace</a></li>
+                    <li><a href="plant.html">Submit Report</a></li>
                 </ul>
             </nav>
             <div class="header-buttons">
-                <a href="index.html" class="btn btn-home"><i class="fas fa-home"></i>BACK TO HOME</a>
+                <a href="index.html" class="btn btn-home"><i class="fas fa-arrow-left"></i> Hub</a>
             </div>
         </div>
     </header>
 
-    <!-- Plant Section -->
     <section class="plant-section">
         <div class="container">
-            <h1 class="plant-title">Submit Plantation Report</h1>
-            <p class="plant-subtitle">Upload photos of your plantation to register it on our blockchain platform and earn carbon credits</p>
-            
+            <h1 class="plant-title">Register Plantation</h1>
+            <p class="plant-subtitle">Register your plantation on the blockchain to earn verified blue carbon credits.
+            </p>
+
+            <div class="stepper">
+                <div class="step active" id="step1">
+                    <div class="step-icon">1</div>
+                    <div class="step-label">Upload</div>
+                </div>
+                <div class="step" id="step2">
+                    <div class="step-icon">2</div>
+                    <div class="step-label">Analysis</div>
+                </div>
+                <div class="step" id="step3">
+                    <div class="step-icon">3</div>
+                    <div class="step-label">Mint</div>
+                </div>
+            </div>
+
             <div class="upload-container">
                 <div class="upload-box" id="uploadBox1">
                     <i class="fas fa-camera upload-icon"></i>
-                    <p class="upload-text">Upload Photo 1</p>
-                    <p class="upload-hint">Close-up of the plantation</p>
+                    <p class="upload-text">Primary Shot</p>
+                    <p class="upload-hint">Detailed close-up of the plantation roots or canopy</p>
                     <img id="preview1" class="upload-preview" alt="Preview">
+                    <div class="upload-overlay" id="overlay1">REPLACE PHOTO</div>
                     <input type="file" id="file1" accept="image/*" style="display: none;">
                 </div>
-                
+
                 <div class="upload-box" id="uploadBox2">
-                    <i class="fas fa-camera upload-icon"></i>
-                    <p class="upload-text">Upload Photo 2</p>
-                    <p class="upload-hint">Show the surrounding area (360 degree photo)</p>
+                    <i class="fas fa-expand upload-icon"></i>
+                    <p class="upload-text">Context Photo</p>
+                    <p class="upload-hint">Wide angle displaying the surrounding ecosystem</p>
                     <img id="preview2" class="upload-preview" alt="Preview">
+                    <div class="upload-overlay" id="overlay2">REPLACE PHOTO</div>
                     <input type="file" id="file2" accept="image/*" style="display: none;">
                 </div>
-                
+
                 <div class="upload-box" id="uploadBox3">
-                    <i class="fas fa-camera upload-icon"></i>
-                    <p class="upload-text">Upload Photo 3</p>
-                    <p class="upload-hint">Geo-tagged location shot</p>
+                    <i class="fas fa-map-pin upload-icon"></i>
+                    <p class="upload-text">Location Proof</p>
+                    <p class="upload-hint">Geo-tagged image for location verification</p>
                     <img id="preview3" class="upload-preview" alt="Preview">
+                    <div class="upload-overlay" id="overlay3">REPLACE PHOTO</div>
                     <input type="file" id="file3" accept="image/*" style="display: none;">
                 </div>
             </div>
-            
-            <button class="btn btn-primary upload-btn" id="uploadBtn"><i class="fas fa-cloud-upload-alt"></i>UPLOAD PLANTATION</button>
+
+            <button class="btn btn-primary" id="uploadBtn"
+                style="padding: 20px 60px; font-size: 1.2rem; border-radius: 16px; font-weight: 800; letter-spacing: 1px;">
+                <i class="fas fa-fingerprint"></i> INITIATE VERIFICATION
+            </button>
         </div>
     </section>
-    
-    <!-- Verification Overlay -->
+
     <div class="verification-overlay" id="verificationOverlay">
-        <div class="verification-content">
-            <h2 class="verification-title">Verifying your plantation report</h2>
+        <div class="scanning-grid"></div>
+        <div class="scanner-line" id="scannerLine"></div>
+
+        <div class="verification-content" id="verificationContent">
+            <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 40px; letter-spacing: -2px;">ANALYZING DATA
+            </h2>
             <div class="loading-circle"></div>
-            <p>Please wait while we verify your report details...</p>
+            <p id="verificationStatus"
+                style="font-size: 1.1rem; font-weight: 600; letter-spacing: 2px; color: var(--primary-green); text-transform: uppercase;">
+                Syncing with Decentralized Nodes...</p>
         </div>
-        
+
         <div class="success-message" id="successMessage">
-            <i class="fas fa-check-circle success-icon"></i>
-            <h2 class="success-text">Plantation Entry Recorded Successfully!</h2>
-            <p>Your plantation has been registered on the blockchain</p>
-            <a href="index.html" class="btn btn-primary" style="margin-top: 20px;"><i class="fas fa-home"></i>RETURN TO HOME</a>
+            <i class="fas fa-shield-check success-icon"></i>
+            <h2 class="success-text">Verification Complete!</h2>
+            <p
+                style="font-size: 1.4rem; color: var(--text-muted); margin-bottom: 50px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                Your plantation is now secured on the blockchain ledger. You will receive your carbon credit balance
+                shortly.</p>
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <a href="index.html" class="btn btn-primary" style="padding: 18px 35px;"><i class="fas fa-home"></i>
+                    Back to Hub</a>
+                <a href="marketplace.html" class="btn btn-outline"
+                    style="padding: 18px 35px; border: 1px solid var(--white); color: var(--white);"><i
+                        class="fas fa-store"></i> View Marketplace</a>
+            </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3>PedPe</h3>
+                    <div class="logo" style="color: var(--white); margin-bottom: 25px;">
+                        <div class="logo-icon"><i class="fas fa-seedling"></i></div>PedPe
+                    </div>
+                    <p style="color: var(--text-muted); line-height: 1.8; max-width: 300px;">Decentralizing blue carbon
+                        verification for a cleaner, greener earth.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Explore</h3>
                     <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Our Mission</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="plant.html">Submit Plantation</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h3>Platform</h3>
+                    <h3>Legal</h3>
                     <ul>
-                        <li><a href="#">For NGO's</a></li>
-                        <li><a href="#">For Verifiers</a></li>
-                        <li><a href="#">For Companies</a></li>
-                        <li><a href="#">Pricing</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Resources</h3>
-                    <ul>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Guides</a></li>
-                        <li><a href="#">Webinars</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Connect</h3>
-                    <ul>
-                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Governance</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="copyright">
-                <p>Copyright © 2025 PedPe, Inc. All rights reserved.</p>
-            </div>
+            <div class="copyright">&copy; 2025 PedPe Protocol. All rights reserved.</div>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // File upload functionality
-            const uploadBoxes = [
-                { box: document.getElementById('uploadBox1'), input: document.getElementById('file1'), preview: document.getElementById('preview1') },
-                { box: document.getElementById('uploadBox2'), input: document.getElementById('file2'), preview: document.getElementById('preview2') },
-                { box: document.getElementById('uploadBox3'), input: document.getElementById('file3'), preview: document.getElementById('preview3') }
+        document.addEventListener('DOMContentLoaded', function () {
+            // GSAP Preloader
+            window.addEventListener('load', () => {
+                const tl = gsap.timeline();
+                tl.to("#preloader", { y: "-100%", duration: 1, ease: "expo.inOut", delay: 0.5 });
+                tl.to("body", { opacity: 1, duration: 0.5 }, "-=0.5");
+            });
+
+            // File selection
+            const uploadBoxes = [1, 2, 3].map(i => ({
+                box: document.getElementById(`uploadBox${i}`),
+                input: document.getElementById(`file${i}`),
+                preview: document.getElementById(`preview1`), // Fixed below
+                overlay: document.getElementById(`overlay${i}`)
+            }));
+
+            // Re-map previews correctly
+            const previews = [
+                document.getElementById('preview1'),
+                document.getElementById('preview2'),
+                document.getElementById('preview3')
             ];
-            
+
             uploadBoxes.forEach((item, index) => {
-                item.box.addEventListener('click', function() {
-                    item.input.click();
-                });
-                
-                item.input.addEventListener('change', function() {
+                item.box.addEventListener('click', () => item.input.click());
+                item.input.addEventListener('change', function () {
                     if (this.files && this.files[0]) {
                         const reader = new FileReader();
-                        
-                        reader.onload = function(e) {
-                            item.preview.src = e.target.result;
-                            item.preview.style.display = 'block';
-                            
-                            // Change box text after upload
-                            const uploadText = item.box.querySelector('.upload-text');
-                            uploadText.textContent = `Photo ${index + 1} Uploaded`;
-                            
-                            // Change icon after upload
-                            const uploadIcon = item.box.querySelector('.upload-icon');
-                            uploadIcon.className = 'fas fa-check upload-icon';
-                            uploadIcon.style.color = 'var(--darker-green)';
+                        reader.onload = (e) => {
+                            previews[index].src = e.target.result;
+                            previews[index].style.display = 'block';
+                            item.overlay.style.display = 'flex';
+                            item.box.classList.add('uploaded');
                         }
-                        
                         reader.readAsDataURL(this.files[0]);
                     }
                 });
             });
-            
-            // Upload button functionality
+
+            // Verification Logic
             const uploadBtn = document.getElementById('uploadBtn');
-            const verificationOverlay = document.getElementById('verificationOverlay');
-            const successMessage = document.getElementById('successMessage');
-            
-            uploadBtn.addEventListener('click', function() {
-                // Check if at least one file is uploaded
-                const filesUploaded = uploadBoxes.some(item => item.input.files.length > 0);
-                
-                if (!filesUploaded) {
-                    alert('Please upload at least one photo of your plantation');
+            const overlay = document.getElementById('verificationOverlay');
+            const statusText = document.getElementById('verificationStatus');
+            const scanner = document.getElementById('scannerLine');
+
+            uploadBtn.addEventListener('click', () => {
+                const hasFiles = [1, 2, 3].some(i => document.getElementById(`file${i}`).files.length > 0);
+                if (!hasFiles) {
+                    alert("Please upload at least one plantation capture.");
                     return;
                 }
-                
-                // Show verification overlay
-                verificationOverlay.style.display = 'flex';
-                
-                // Simulate verification process
-                setTimeout(function() {
-                    // Hide loading, show success
-                    document.querySelector('.verification-content').style.display = 'none';
-                    successMessage.style.display = 'block';
-                }, 3000);
+
+                overlay.style.display = 'flex';
+                scanner.style.display = 'block';
+
+                // Scanner animation
+                gsap.to(scanner, {
+                    top: "100%",
+                    duration: 1.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+
+                // Status updates
+                const statuses = [
+                    "Analyzing Canopy Density...",
+                    "Extracting Spatial Metadata...",
+                    "Authenticating Geo-Coordinates...",
+                    "Verifying Species Biodiversity...",
+                    "Generating Verified Certificate..."
+                ];
+
+                let s = 0;
+                const statusInterval = setInterval(() => {
+                    statusText.textContent = statuses[s];
+                    s++;
+                    if (s >= statuses.length) clearInterval(statusInterval);
+                }, 1000);
+
+                // Completion
+                setTimeout(() => {
+                    gsap.to("#verificationContent", {
+                        opacity: 0, duration: 0.5, onComplete: () => {
+                            document.getElementById('verificationContent').style.display = 'none';
+                            document.getElementById('successMessage').style.display = 'block';
+                            gsap.from("#successMessage > *", { y: 30, opacity: 0, stagger: 0.2, duration: 0.8 });
+                            scanner.style.display = 'none';
+                        }
+                    });
+                }, 6000);
             });
         });
     </script>
 </body>
+
 </html>
